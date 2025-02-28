@@ -1,5 +1,6 @@
 package com.vgrigorov.movielib.di
 
+import com.vgrigorov.movielib.Keys
 import com.vgrigorov.movielib.data.MoviesAPI
 import com.vgrigorov.movielib.data.MoviesRepository
 import com.vgrigorov.movielib.data.MoviesRepositoryContract
@@ -13,7 +14,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-const val BASE_URL = ""
+const val BASE_URL = "https://api.themoviedb.org/3/"
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -69,11 +70,20 @@ object AppModule {
     @Singleton
     fun provideHttpClient(): OkHttpClient =
         OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .addHeader("Accept", "application/json")
+                    .addHeader("Authorization", "Bearer " + Keys.API_ACCESS_TOKEN)
+                    .build()
+                chain.proceed(request)
+            }
             .addInterceptor(
-                HttpLoggingInterceptor()
-                    .setLevel(HttpLoggingInterceptor.Level.BODY)
+                HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                }
             )
             .build()
+
 
     @Provides
     @Singleton

@@ -1,13 +1,13 @@
 package com.vgrigorov.movielib.data
 
-import com.vgrigorov.movielib.data.resources.Movie
+import com.vgrigorov.movielib.domain.models.MoviesList
 
 interface MoviesRepositoryContract {
 
-    suspend fun getNowPlayingMovies(): List<Movie>
+    suspend fun getNowPlayingMovies(): List<MoviesList>
 
-    suspend fun getPopularMovies(): List<Movie>
+    suspend fun getPopularMovies(): MoviesList
 
-    suspend fun getTopRatedMovies(): List<Movie>
+    suspend fun getTopRatedMovies(): List<MoviesList>
 
 }
