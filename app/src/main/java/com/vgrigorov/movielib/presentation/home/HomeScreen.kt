@@ -3,6 +3,7 @@ package com.vgrigorov.movielib.presentation.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,6 +22,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,6 +32,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.skydoves.landscapist.glide.GlideImage
 import com.vgrigorov.movielib.domain.models.Movie
@@ -38,24 +42,48 @@ import com.vgrigorov.movielib.presentation.movie_details.FailedState
 
 @Composable
 fun HomeScreen(
-    topRatedMovies: List<Movie>,
-    popularMovies: List<Movie>,
-    nowPlayingMovies: List<Movie>,
-    navController : NavController
+    viewModel: HomeViewModel = hiltViewModel(),
+    navController: NavController
 ) {
     val scrollState = rememberScrollState()
+    val topRatedMovies by viewModel.topRatedMovies.collectAsState()
+    val popularMovies by viewModel.popularMovies.collectAsState()
+    val nowPlayingMovies by viewModel.nowPlayingMovies.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black)
-            .padding(horizontal = 12.dp)
-            .verticalScroll(scrollState), // Enable vertical scrollin
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        MovieCategorySection("Top Rated", topRatedMovies, navController)
-        MovieCategorySection("Popular", popularMovies, navController)
-        MovieCategorySection("Now Playing", nowPlayingMovies, navController)
+    when (uiState) {
+        is UiState.Loading -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+        is UiState.Success -> {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollState) // Enable vertical scrollin
+                    .background(Color.Black),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                MovieCategorySection("Top Rated", topRatedMovies, navController)
+                MovieCategorySection("Popular", popularMovies, navController)
+                MovieCategorySection("Now Playing", nowPlayingMovies, navController)
+            }
+        }
+        is UiState.Error -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = (uiState as UiState.Error).message,
+                    color = Color.White
+                )
+            }
+        }
     }
 }
 
