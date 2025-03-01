@@ -29,6 +29,7 @@ fun MoviesListResource.toDomain(): MoviesList = MoviesList(
 )
 
 fun MovieResource.toDomain(): Movie = Movie(
+    this.id,
     this.title ?: "N/A",
     this.posterPath,
     this.backdropPath,

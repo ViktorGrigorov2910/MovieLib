@@ -1,6 +1,7 @@
 package com.vgrigorov.movielib.presentation.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -28,8 +29,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.skydoves.landscapist.glide.GlideImage
 import com.vgrigorov.movielib.domain.models.Movie
+import com.vgrigorov.movielib.presentation.Screen
 
 //TODO: Add onclick Logic that open movie details (yet to be implemented)
 
@@ -37,7 +40,8 @@ import com.vgrigorov.movielib.domain.models.Movie
 fun HomeScreen(
     topRatedMovies: List<Movie>,
     popularMovies: List<Movie>,
-    nowPlayingMovies: List<Movie>
+    nowPlayingMovies: List<Movie>,
+    navController : NavController
 ) {
     val scrollState = rememberScrollState()
 
@@ -49,14 +53,18 @@ fun HomeScreen(
             .verticalScroll(scrollState), // Enable vertical scrollin
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        MovieCategorySection("Top Rated", topRatedMovies)
-        MovieCategorySection("Popular", popularMovies)
-        MovieCategorySection("Now Playing", nowPlayingMovies)
+        MovieCategorySection("Top Rated", topRatedMovies, navController)
+        MovieCategorySection("Popular", popularMovies, navController)
+        MovieCategorySection("Now Playing", nowPlayingMovies, navController)
     }
 }
 
 @Composable
-fun MovieCategorySection(title: String, movies: List<Movie>) {
+fun MovieCategorySection(
+    title: String,
+    movies: List<Movie>,
+    navController: NavController
+) {
     Column(modifier = Modifier.padding(vertical = 16.dp)) {
         Text(
             text = title,
@@ -67,19 +75,22 @@ fun MovieCategorySection(title: String, movies: List<Movie>) {
         )
         LazyRow {
             items(movies) { movie ->
-                MovieComponent(movie)
+                MovieComponent(movie, onClick = {
+                    navController.navigate(Screen.MovieDetails.createRoute(movie.id))
+                })
             }
         }
     }
 }
 
 @Composable
-fun MovieComponent(movie: Movie) {
+fun MovieComponent(movie: Movie, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .width(120.dp)
-            .padding(8.dp),
-        elevation = CardDefaults.cardElevation() , // Adds a shadow to the card
+            .padding(8.dp)
+            .clickable { onClick() },
+        elevation = CardDefaults.cardElevation(), // Adds a shadow to the card
         shape = RoundedCornerShape(8.dp) // Rounded corners for the card
     ) {
         Column(
@@ -116,7 +127,6 @@ fun MovieComponent(movie: Movie) {
         }
     }
 }
-
 
 
 @Composable

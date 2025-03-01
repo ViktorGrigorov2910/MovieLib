@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.vgrigorov.movielib.domain.models.Movie
 import com.vgrigorov.movielib.presentation.home.HomeScreen
+import com.vgrigorov.movielib.presentation.movie_details.MovieDetailsScreenWithAnimation
 import com.vgrigorov.movielib.presentation.theme.MovieLibTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color =Color.Black
+                    color = Color.Black
                 ) {
                     MovieLibApp()
                 }
@@ -38,10 +39,15 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-sealed class Screen(val route: String, val title: String) {
+sealed class Screen(val route: String, val title: String? = null) {
     object Home : Screen("home", "Home")
     object Search : Screen("search", "Search")
     object Favorites : Screen("favorites", "Favorites")
+
+    object MovieDetails : Screen("movie_details/{movieId}") {
+        fun createRoute(movieId: Int) = "movie_details/$movieId"
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,9 +66,27 @@ fun MovieLibApp() {
                 HomeScreen(
                     topRatedMovies = dummyMovies,
                     popularMovies = dummyMovies,
-                    nowPlayingMovies = dummyMovies
+                    nowPlayingMovies = dummyMovies,
+                    navController = navController
                 )
             }
+
+            // Movie Details Screen
+            composable(Screen.MovieDetails.route) { backStackEntry ->
+                // Retrieve the movie ID from the route
+                val movieId = backStackEntry.arguments?.getString("movieId")?.toIntOrNull()
+
+                // TODO: Find the movie by ID (you can replace this with a ViewModel call)
+                val movie = dummyMovies.find { it.id == movieId }
+
+                if (movie != null) {
+                    MovieDetailsScreenWithAnimation(movie = movie , true , navController)
+                } else {
+                    // Handle case where movie is not found
+                    Text("Movie not found", modifier = Modifier.fillMaxSize(), color = Color.White)
+                }
+            }
+
             composable(Screen.Search.route) { SearchScreen() }
             composable(Screen.Favorites.route) { FavoritesScreen() }
         }
@@ -81,7 +105,7 @@ fun BottomNavigationBar(navController: NavHostController) {
     ) {
         items.forEach { screen ->
             NavigationBarItem(
-                label = { Text(screen.title) },
+                label = { Text(screen.title ?: "") },
                 selected = currentRoute == screen.route, // Will update later
                 onClick = { navController.navigate(screen.route) },
                 icon = { Icon(Icons.Default.Home, contentDescription = screen.title) }
@@ -92,6 +116,7 @@ fun BottomNavigationBar(navController: NavHostController) {
 
 val dummyMovies = listOf(
     Movie(
+        id = 1,
         title = "Inception",
         posterPath = "https://image.tmdb.org/t/p/w500/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg",
         backdropPath = "https://image.tmdb.org/t/p/w1280/s3TBrRGB1iav7gFOCNx3H31MoES.jpg",
@@ -100,36 +125,40 @@ val dummyMovies = listOf(
         overview = "A thief who enters the dreams of others to steal secrets from their subconscious."
     ),
     Movie(
+        id = 2,
         title = "The Dark Knight",
         posterPath = "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
         backdropPath = "https://image.tmdb.org/t/p/w1280/hjQp148VjWF4KjzhsD90OCMr11h.jpg",
         releaseDate = "2008-07-18",
         rating = 9.0,
-        overview = "Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham."
+        overview = "Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham."
     ),
     Movie(
+        id = 3,
         title = "Interstellar",
         posterPath = "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
         backdropPath = "https://image.tmdb.org/t/p/w1280/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg",
         releaseDate = "2014-11-07",
         rating = 8.6,
-        overview = "A group of explorers travel through a wormhole in space to ensure humanity's survival."
+        overview = "Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.A group of explorers travel through a wormhole in space to ensure humanity's survival."
     ),
     Movie(
+        id = 4,
         title = "Avatar",
         posterPath = "https://image.tmdb.org/t/p/w500/kyeqWdyUXW608qlYkRqosgbbJyK.jpg",
         backdropPath = "https://image.tmdb.org/t/p/w1280/oM8s40cTb4Z9U1NzqUe6wXBpyUb.jpg",
         releaseDate = "2009-12-18",
         rating = 7.9,
-        overview = "A paraplegic Marine is dispatched to the moon Pandora and becomes part of an indigenous race."
+        overview = "Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.A paraplegic Marine is dispatched to the moon Pandora and becomes part of an indigenous race."
     ),
     Movie(
+        id = 5,
         title = "Parasite",
         posterPath = "https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg",
         backdropPath = "https://image.tmdb.org/t/p/w1280/TgH9POOinptF9zRzj4uJROK1oNj.jpg",
         releaseDate = "2019-05-30",
         rating = 8.5,
-        overview = "Greed and class discrimination threaten the newly formed symbiotic relationship between a wealthy family and a poor one."
+        overview = "Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham.Greed and class discrimination threaten the newly formed symbiotic relationship between a wealthy family and a poor one."
     )
 )
 
