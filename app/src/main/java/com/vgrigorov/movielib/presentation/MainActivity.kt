@@ -3,25 +3,21 @@ package com.vgrigorov.movielib.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import com.vgrigorov.movielib.presentation.theme.MovieLibTheme
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.vgrigorov.movielib.domain.models.Movie
 import com.vgrigorov.movielib.presentation.home.HomeScreen
+import com.vgrigorov.movielib.presentation.theme.MovieLibTheme
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -76,11 +72,17 @@ fun MovieLibApp() {
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
     val items = listOf(Screen.Home, Screen.Search, Screen.Favorites)
-    NavigationBar {
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+    NavigationBar(
+        containerColor = Color.White,
+        contentColor = Color.Black
+    ) {
         items.forEach { screen ->
             NavigationBarItem(
                 label = { Text(screen.title) },
-                selected = false, // Will update later
+                selected = currentRoute == screen.route, // Will update later
                 onClick = { navController.navigate(screen.route) },
                 icon = { Icon(Icons.Default.Home, contentDescription = screen.title) }
             )
