@@ -43,11 +43,9 @@ sealed class Screen(val route: String, val title: String? = null) {
     object Home : Screen("home", "Home")
     object Search : Screen("search", "Search")
     object Favorites : Screen("favorites", "Favorites")
-
-    object MovieDetails : Screen("movie_details/{movieId}") {
-        fun createRoute(movieId: Int) = "movie_details/$movieId"
+    object MovieDetails : Screen("movie_details") {
+        const val MOVIE_KEY = "movie"
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -74,13 +72,11 @@ fun MovieLibApp() {
             // Movie Details Screen
             composable(Screen.MovieDetails.route) { backStackEntry ->
                 // Retrieve the movie ID from the route
-                val movieId = backStackEntry.arguments?.getString("movieId")?.toIntOrNull()
-
-                // TODO: Find the movie by ID (you can replace this with a ViewModel call)
-                val movie = dummyMovies.find { it.id == movieId }
+                val movie =
+                    navController.previousBackStackEntry?.savedStateHandle?.get<Movie>(Screen.MovieDetails.MOVIE_KEY)
 
                 if (movie != null) {
-                    MovieDetailsScreenWithAnimation(movie = movie , true , navController)
+                    MovieDetailsScreenWithAnimation(movie = movie, true, navController)
                 } else {
                     // Handle case where movie is not found
                     Text("Movie not found", modifier = Modifier.fillMaxSize(), color = Color.White)
@@ -107,7 +103,9 @@ fun BottomNavigationBar(navController: NavHostController) {
             NavigationBarItem(
                 label = { Text(screen.title ?: "") },
                 selected = currentRoute == screen.route, // Will update later
-                onClick = { navController.navigate(screen.route) },
+                onClick = {
+                    navController.navigate(screen.route)
+                },
                 icon = { Icon(Icons.Default.Home, contentDescription = screen.title) }
             )
         }

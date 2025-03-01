@@ -33,9 +33,8 @@ import androidx.navigation.NavController
 import com.skydoves.landscapist.glide.GlideImage
 import com.vgrigorov.movielib.domain.models.Movie
 import com.vgrigorov.movielib.presentation.Screen
+import com.vgrigorov.movielib.presentation.Screen.MovieDetails.MOVIE_KEY
 import com.vgrigorov.movielib.presentation.movie_details.FailedState
-
-//TODO: Add onclick Logic that open movie details (yet to be implemented)
 
 @Composable
 fun HomeScreen(
@@ -76,8 +75,10 @@ fun MovieCategorySection(
         )
         LazyRow {
             items(movies) { movie ->
-                MovieComponent(movie, onClick = {
-                    navController.navigate(Screen.MovieDetails.createRoute(movie.id))
+                MovieComponent(movie,
+                    onClick = {
+                    navController.currentBackStackEntry?.savedStateHandle?.set(MOVIE_KEY, movie)
+                    navController.navigate(Screen.MovieDetails.route)
                 })
             }
         }

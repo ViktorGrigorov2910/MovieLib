@@ -1,5 +1,8 @@
 package com.vgrigorov.movielib.domain.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 
 data class MoviesList(
     val page: Int,
@@ -7,6 +10,8 @@ data class MoviesList(
 )
 
 
+
+@Parcelize
 data class Movie(
     val id : Int,
     val title: String,
@@ -15,4 +20,4 @@ data class Movie(
     val releaseDate: String?,
     val rating: Double?,
     val overview: String?
-)
+) : Parcelable
