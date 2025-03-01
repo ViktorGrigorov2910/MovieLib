@@ -33,6 +33,7 @@ import androidx.navigation.NavController
 import com.skydoves.landscapist.glide.GlideImage
 import com.vgrigorov.movielib.domain.models.Movie
 import com.vgrigorov.movielib.presentation.Screen
+import com.vgrigorov.movielib.presentation.movie_details.FailedState
 
 //TODO: Add onclick Logic that open movie details (yet to be implemented)
 
@@ -105,6 +106,13 @@ fun MovieComponent(movie: Movie, onClick: () -> Unit) {
                             .size(86.dp),
                         color = MaterialTheme.colorScheme.secondary,
                         trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                    )
+                },
+                failure = {
+                    FailedState(
+                        size = 200.dp,
+                        shape = RoundedCornerShape(8.dp),
+                        text = "Failed to load image",
                     )
                 },
                 modifier = Modifier
