@@ -6,17 +6,21 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.vgrigorov.movielib.domain.models.Movie
 import com.vgrigorov.movielib.presentation.home.HomeScreen
 import com.vgrigorov.movielib.presentation.movie_details.MovieDetailsScreen
+import com.vgrigorov.movielib.presentation.search.SearchScreen
 import com.vgrigorov.movielib.presentation.theme.MovieLibTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -62,10 +66,10 @@ fun MovieLibApp() {
                 val movie =
                     navController.previousBackStackEntry?.savedStateHandle?.get<Movie>(Screen.MovieDetails.MOVIE_KEY)
 
-                MovieDetailsScreen (movie = movie, onBackClicked =  { navController.popBackStack() })
+                MovieDetailsScreen(movie = movie, onBackClicked = { navController.popBackStack() })
             }
 
-            composable(Screen.Search.route) { SearchScreen() }
+            composable(Screen.Search.route) { SearchScreen(navController) }
             composable(Screen.Favorites.route) { FavoritesScreen() }
         }
     }
@@ -88,25 +92,25 @@ fun BottomNavigationBar(navController: NavHostController) {
                 onClick = {
                     navController.navigate(screen.route)
                 },
-                icon = { Icon(Icons.Default.Home, contentDescription = screen.title) }
+                // screen.icon ?: -> impossible case since screens that are include in navigation already have icons
+                icon = {
+                    Icon(
+                        screen.icon ?: Icons.Default.Home,
+                        contentDescription = screen.title
+                    )
+                }
             )
         }
     }
 }
 
-sealed class Screen(val route: String, val title: String? = null) {
-    object Home : Screen("home", "Home")
-    object Search : Screen("search", "Search")
-    object Favorites : Screen("favorites", "Favorites")
+sealed class Screen(val route: String, val title: String? = null, val icon: ImageVector? = null) {
+    object Home : Screen("home", "Home", Icons.Default.Home)
+    object Search : Screen("search", "Search", Icons.Default.Search)
+    object Favorites : Screen("favorites", "Favorites", Icons.Default.Favorite)
     object MovieDetails : Screen("movie_details") {
         const val MOVIE_KEY = "movie"
     }
-}
-
-@Composable
-fun SearchScreen() {
-    //TODO: Move to separate package
-    Text(text = "Search Screen - Movie Search Results")
 }
 
 @Composable

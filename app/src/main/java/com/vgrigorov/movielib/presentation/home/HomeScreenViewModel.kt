@@ -42,11 +42,11 @@ class HomeViewModel @Inject constructor(
             _uiState.value = UiState.Loading
             delay(2000L)
 
-            when (val result = getPopularMoviesUseCase.execute(Unit)) {
-                is DataResult.Failure -> _uiState.value =
-                    UiState.Error(result.error.message ?: "Unknown error")
-
-                is DataResult.Success -> {
+//            when (val result = getPopularMoviesUseCase.execute(Unit)) {
+//                is DataResult.Failure -> _uiState.value =
+//                    UiState.Error(result.error.message ?: "Unknown error")
+//
+//                is DataResult.Success -> {
 
                     //TODO: Uncomment when testing is finished
                     _popularMovies.value = dummyMovies
@@ -55,8 +55,8 @@ class HomeViewModel @Inject constructor(
 //                    _popularMovies.value = result.value.movies
 //                    _nowPlayingMovies.value = result.value.movies
 //                    _topRatedMovies.value = result.value.movies
-                }
-            }
+//                }
+//            }
 
             //TODO: Implement when getTopRatedMovies & getNowPlayingMovies api is ready
             //when (val result =getTopRatedMoviesUseCase.execute(Unit) ){

@@ -9,8 +9,6 @@ data class MoviesList(
     val movies: List<Movie>
 )
 
-
-
 @Parcelize
 data class Movie(
     val id : Int,

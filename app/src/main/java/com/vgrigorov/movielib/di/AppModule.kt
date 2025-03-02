@@ -4,6 +4,8 @@ import com.vgrigorov.movielib.Keys
 import com.vgrigorov.movielib.data.MoviesAPI
 import com.vgrigorov.movielib.data.MoviesRepository
 import com.vgrigorov.movielib.data.MoviesRepositoryContract
+import com.vgrigorov.movielib.data.search.SearchRepository
+import com.vgrigorov.movielib.data.search.SearchRepositoryContract
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,6 +31,9 @@ object AppModule {
     fun providesMoviesRepository(repo: MoviesRepository): MoviesRepositoryContract = repo
 
 
+    @Provides
+    @Singleton
+    fun providesSearchRepository(repo: SearchRepository): SearchRepositoryContract = repo
 
     // TODO: Change for local db
 //    @Provides

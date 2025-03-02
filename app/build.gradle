@@ -82,6 +82,11 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
     implementation "com.github.skydoves:cloudy:0.1.2" // For blur effect
 
+    //Paging
+    implementation "androidx.paging:paging-compose:3.2.0" // For Compose integration
+    implementation "androidx.paging:paging-runtime:3.2.0" // For PagingSource
+
+
     //Glide - for images
     implementation 'com.github.bumptech.glide:glide:4.15.1'
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.15.1'
