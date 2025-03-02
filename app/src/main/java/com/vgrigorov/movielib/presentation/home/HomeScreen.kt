@@ -38,7 +38,7 @@ import com.skydoves.landscapist.glide.GlideImage
 import com.vgrigorov.movielib.domain.models.Movie
 import com.vgrigorov.movielib.presentation.Screen
 import com.vgrigorov.movielib.presentation.Screen.MovieDetails.MOVIE_KEY
-import com.vgrigorov.movielib.presentation.movie_details.FailedState
+import com.vgrigorov.movielib.presentation.movie_details.GlideImageFailedState
 
 @Composable
 fun HomeScreen(
@@ -138,7 +138,7 @@ fun MovieComponent(movie: Movie, onClick: () -> Unit) {
                     )
                 },
                 failure = {
-                    FailedState(
+                    GlideImageFailedState(
                         size = 200.dp,
                         shape = RoundedCornerShape(8.dp),
                         text = "Failed to load image",

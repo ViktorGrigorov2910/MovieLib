@@ -16,7 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.vgrigorov.movielib.domain.models.Movie
 import com.vgrigorov.movielib.presentation.home.HomeScreen
-import com.vgrigorov.movielib.presentation.movie_details.MovieDetailsScreenWithAnimation
+import com.vgrigorov.movielib.presentation.movie_details.MovieDetailsScreen
 import com.vgrigorov.movielib.presentation.theme.MovieLibTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -62,12 +62,7 @@ fun MovieLibApp() {
                 val movie =
                     navController.previousBackStackEntry?.savedStateHandle?.get<Movie>(Screen.MovieDetails.MOVIE_KEY)
 
-                if (movie != null) {
-                    MovieDetailsScreenWithAnimation(movie = movie, true, navController)
-                } else {
-                    // Handle case where movie is not found
-                    Text("Movie not found", modifier = Modifier.fillMaxSize(), color = Color.White)
-                }
+                MovieDetailsScreen (movie = movie, onBackClicked =  { navController.popBackStack() })
             }
 
             composable(Screen.Search.route) { SearchScreen() }
