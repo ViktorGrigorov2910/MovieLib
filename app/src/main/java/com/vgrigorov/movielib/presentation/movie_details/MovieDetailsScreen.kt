@@ -1,5 +1,6 @@
 package com.vgrigorov.movielib.presentation.movie_details
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
@@ -28,6 +29,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -37,7 +39,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.skydoves.cloudy.Cloudy
 import com.skydoves.landscapist.glide.GlideImage
 import com.vgrigorov.movielib.domain.models.Movie
-
 
 @Composable
 fun MovieDetailsScreen(
@@ -87,7 +88,7 @@ fun MovieDetailsScreen(
                 is UiState.Success -> {
                     val successState = uiState as UiState.Success
                     MovieDetailsContent(
-                        isFavourite = false,//TODO: Make dynamic once isMovieFavorite() is implemented in Dao - Note: Can be passed from State alongside the Movie
+                        isFavourite = successState.isMovieFavorite,
                         movie = successState.movie,
                         onBackClicked = onBackClicked,
                         onSaveClicked = { viewModel.addMovieToFavourites(movie!!) } // we know for sure that there is a movie since we are in the Success State
@@ -141,6 +142,9 @@ fun MovieDetailsContent(
     onSaveClicked: (movie: Movie) -> Unit,
     onBackClicked: () -> Unit
 ) {
+
+    val context = LocalContext.current
+
     AnimatedVisibility(
         visible = true,
         enter = fadeIn() + expandVertically(),
@@ -218,6 +222,10 @@ fun MovieDetailsContent(
                 isFavourite = isFavourite,
                 onSaveClicked = {
                     onSaveClicked(movie)
+                    // Close Details when saved to favs
+                    Toast.makeText(context, "Movie was added to Favourites!", Toast.LENGTH_LONG)
+                        .show()
+                    onBackClicked()
                 },
                 onCloseClicked = {
                     onBackClicked()

@@ -11,5 +11,7 @@ interface FavoritesRepositoryContract {
 
     fun getAllMovies(): Flow<List<Movie>>
 
+    fun isMovieFavorite(id: Int): Boolean
+
 
 }

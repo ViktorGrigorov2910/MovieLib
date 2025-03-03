@@ -24,4 +24,8 @@ class FavoritesRepository @Inject constructor(
         }
     }
 
+    override fun isMovieFavorite(id: Int): Boolean {
+        return movieDao.getFavoriteMovieById(id) != null // If the movie exists in the DB, it's a favorite
+    }
+
 }
