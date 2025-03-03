@@ -1,14 +1,19 @@
 package com.vgrigorov.movielib.di
 
+import android.content.Context
 import com.vgrigorov.movielib.Keys
+import com.vgrigorov.movielib.data.FavoritesRepository
 import com.vgrigorov.movielib.data.MoviesAPI
 import com.vgrigorov.movielib.data.MoviesRepository
 import com.vgrigorov.movielib.data.MoviesRepositoryContract
 import com.vgrigorov.movielib.data.search.SearchRepository
 import com.vgrigorov.movielib.data.search.SearchRepositoryContract
+import com.vgrigorov.movielib.database.MovieDao
+import com.vgrigorov.movielib.database.MovieDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -35,40 +40,23 @@ object AppModule {
     @Singleton
     fun providesSearchRepository(repo: SearchRepository): SearchRepositoryContract = repo
 
-    // TODO: Change for local db
-//    @Provides
-//    fun providePlacesDatabaseDao(appDatabase: PlacesHistoryDatabaseDao): PlacesDatabaseDao {
-//        return appDatabase.dao()
-//    }
-//
-//    @Provides
-//    @Singleton
-//    fun providePlacesDatabase(@ApplicationContext context: Context): PlacesHistoryDatabaseDao {
-//        return Room.databaseBuilder(
-//            context.applicationContext,
-//            PlacesHistoryDatabaseDao::class.java,
-//            "places_list"
-//        )
-//            .fallbackToDestructiveMigration()
-//            .build()
-//    }
-//
-//    @Provides
-//    fun provideDatabaseDao(appDatabase: UserHistoryDatabaseDao): HistoryDatabaseDao {
-//        return appDatabase.dao()
-//    }
-//
-//    @Provides
-//    @Singleton
-//    fun provideDatabase(@ApplicationContext context: Context): UserHistoryDatabaseDao {
-//        return Room.databaseBuilder(
-//            context.applicationContext,
-//            UserHistoryDatabaseDao::class.java,
-//            "history_list"
-//        )
-//            .fallbackToDestructiveMigration()
-//            .build()
-//    }
+    @Provides
+    @Singleton
+    fun provideMovieDatabase(@ApplicationContext context: Context): MovieDatabase {
+        return MovieDatabase.getDatabase(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMovieDao(database: MovieDatabase): MovieDao {
+        return database.movieDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMovieRepository(movieDao: MovieDao): FavoritesRepository {
+        return FavoritesRepository(movieDao)
+    }
 
 
     @Provides

@@ -2,6 +2,7 @@ package com.vgrigorov.movielib.presentation.movie_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vgrigorov.movielib.data.FavoritesRepository
 import com.vgrigorov.movielib.domain.models.Movie
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -12,6 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
+    private val favoritesRepository: FavoritesRepository
+
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
@@ -27,6 +30,15 @@ class MovieDetailsViewModel @Inject constructor(
             } else {
                 _uiState.value = UiState.Error("Movie details not found!")
             }
+        }
+    }
+
+    //TODO: Add isMovieInFav() so we know if we have to show the "<3" icon or not
+
+
+    fun addMovieToFavourites(movie: Movie) {
+        viewModelScope.launch {
+            favoritesRepository.addMovie(movie)
         }
     }
 

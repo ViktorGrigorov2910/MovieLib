@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -86,8 +87,10 @@ fun MovieDetailsScreen(
                 is UiState.Success -> {
                     val successState = uiState as UiState.Success
                     MovieDetailsContent(
+                        isFavourite = false,//TODO: Make dynamic once isMovieFavorite() is implemented in Dao - Note: Can be passed from State alongside the Movie
                         movie = successState.movie,
-                        onBackClicked = onBackClicked
+                        onBackClicked = onBackClicked,
+                        onSaveClicked = { viewModel.addMovieToFavourites(movie!!) } // we know for sure that there is a movie since we are in the Success State
                     )
                 }
 
@@ -129,12 +132,13 @@ fun MovieDetailsScreen(
 }
 
 
-
 //TODO: Might be good to add the movies' genres as ENUM and add them above the overview
 // Since it is ENUM we just do fori on the list and show them dynamically
 @Composable
 fun MovieDetailsContent(
     movie: Movie,
+    isFavourite: Boolean,
+    onSaveClicked: (movie: Movie) -> Unit,
     onBackClicked: () -> Unit
 ) {
     AnimatedVisibility(
@@ -210,21 +214,63 @@ fun MovieDetailsContent(
                     .fillMaxWidth()
             )
 
-            // Back Button
-            IconButton(
-                onClick = onBackClicked,
-                modifier = Modifier
-                    .padding(16.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Close,
-                    contentDescription = "Back",
-                    tint = Color.Black // Black icon
-                )
-            }
+            ButtonRow(
+                isFavourite = isFavourite,
+                onSaveClicked = {
+                    onSaveClicked(movie)
+                },
+                onCloseClicked = {
+                    onBackClicked()
+                }
+            )
         }
     }
 }
+
+@Composable
+fun ButtonRow(
+    isFavourite: Boolean,
+    onSaveClicked: () -> Unit,
+    onCloseClicked: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+
+        if (!isFavourite) {
+            // Save Button
+            IconButton(
+                onClick = onSaveClicked,
+                modifier = Modifier.weight(1f)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Favorite,
+                    contentDescription = "Favorite",
+                    tint = Color.Black // Black icon
+                )
+            }
+
+            // Spacer to evenly distribute space
+            Spacer(modifier = Modifier.width(16.dp))
+        }
+
+        // Close Button
+        IconButton(
+            onClick = onCloseClicked,
+            modifier = Modifier.weight(1f)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Close,
+                contentDescription = "Close",
+                tint = Color.Black // Black icon
+            )
+        }
+    }
+}
+
 
 @Composable
 fun GlideImageFailedState(

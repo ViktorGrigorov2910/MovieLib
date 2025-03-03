@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.vgrigorov.movielib.domain.models.Movie
+import com.vgrigorov.movielib.presentation.favorites.FavoritesScreen
 import com.vgrigorov.movielib.presentation.home.HomeScreen
 import com.vgrigorov.movielib.presentation.movie_details.MovieDetailsScreen
 import com.vgrigorov.movielib.presentation.search.SearchScreen
@@ -113,9 +114,3 @@ sealed class Screen(val route: String, val title: String? = null, val icon: Imag
     }
 }
 
-@Composable
-fun FavoritesScreen() {
-    //TODO: Move to separate package
-    // Local DB implementations is required for this to be picked up
-    Text(text = "Favorites Screen - Saved Movies")
-}
