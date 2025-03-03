@@ -1,5 +1,6 @@
-package com.vgrigorov.movielib.data
+package com.vgrigorov.movielib.data.movies
 
+import com.vgrigorov.movielib.data.MoviesAPI
 import com.vgrigorov.movielib.data.resources.toDomain
 import com.vgrigorov.movielib.domain.models.MoviesList
 import javax.inject.Inject

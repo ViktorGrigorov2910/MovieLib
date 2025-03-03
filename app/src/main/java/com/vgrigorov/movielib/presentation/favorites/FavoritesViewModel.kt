@@ -2,7 +2,7 @@ package com.vgrigorov.movielib.presentation.favorites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vgrigorov.movielib.data.FavoritesRepository
+import com.vgrigorov.movielib.data.favourites.FavoritesRepository
 import com.vgrigorov.movielib.domain.models.Movie
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow

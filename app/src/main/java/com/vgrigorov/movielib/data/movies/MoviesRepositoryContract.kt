@@ -1,4 +1,4 @@
-package com.vgrigorov.movielib.data
+package com.vgrigorov.movielib.data.movies
 
 import com.vgrigorov.movielib.domain.models.MoviesList
 

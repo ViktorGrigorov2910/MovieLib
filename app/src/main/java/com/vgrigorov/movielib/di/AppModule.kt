@@ -2,10 +2,10 @@ package com.vgrigorov.movielib.di
 
 import android.content.Context
 import com.vgrigorov.movielib.Keys
-import com.vgrigorov.movielib.data.FavoritesRepository
+import com.vgrigorov.movielib.data.favourites.FavoritesRepository
 import com.vgrigorov.movielib.data.MoviesAPI
-import com.vgrigorov.movielib.data.MoviesRepository
-import com.vgrigorov.movielib.data.MoviesRepositoryContract
+import com.vgrigorov.movielib.data.movies.MoviesRepository
+import com.vgrigorov.movielib.data.movies.MoviesRepositoryContract
 import com.vgrigorov.movielib.data.search.SearchRepository
 import com.vgrigorov.movielib.data.search.SearchRepositoryContract
 import com.vgrigorov.movielib.database.MovieDao

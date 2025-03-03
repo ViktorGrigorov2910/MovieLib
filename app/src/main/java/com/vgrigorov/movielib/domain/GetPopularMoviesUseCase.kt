@@ -1,6 +1,6 @@
 package com.vgrigorov.movielib.domain
 
-import com.vgrigorov.movielib.data.MoviesRepositoryContract
+import com.vgrigorov.movielib.data.movies.MoviesRepositoryContract
 import com.vgrigorov.movielib.domain.base.DataResult
 import com.vgrigorov.movielib.domain.base.UseCase
 import com.vgrigorov.movielib.domain.base.asDataResult
