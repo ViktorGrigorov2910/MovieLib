@@ -16,7 +16,6 @@ class FavoritesViewModel @Inject constructor(
 
     val favoriteMovies: Flow<List<Movie>> =  favoritesRepository.getAllMovies()
 
-    //TODO: To be used with swipeToDelete
     fun removeMovieFromFavorites(movieId: Int) {
         viewModelScope.launch {
             favoritesRepository.removeMovie(movieId)

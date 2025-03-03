@@ -62,7 +62,7 @@ fun MovieLibApp() {
             }
 
             // Movie Details Screen
-            composable(Screen.MovieDetails.route) { backStackEntry ->
+            composable(Screen.MovieDetails.route) { _ ->
                 // Retrieve the movie ID from the route
                 val movie =
                     navController.previousBackStackEntry?.savedStateHandle?.get<Movie>(Screen.MovieDetails.MOVIE_KEY)
