@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.skydoves.landscapist.glide.GlideImage
+import com.vgrigorov.movielib.Constants.Companion.BASE_POSTER_IMAGE_URL
 import com.vgrigorov.movielib.domain.models.Movie
 import com.vgrigorov.movielib.presentation.Screen
 import com.vgrigorov.movielib.presentation.Screen.MovieDetails.MOVIE_KEY
@@ -134,7 +135,7 @@ fun MovieComponent(movie: Movie, onClick: () -> Unit) {
         ) {
             // Movie Poster Image
             GlideImage(
-                imageModel = { movie.posterPath },
+                imageModel = { BASE_POSTER_IMAGE_URL + movie.posterPath },
                 loading = {
                     CircularProgressIndicator(
                         modifier = Modifier

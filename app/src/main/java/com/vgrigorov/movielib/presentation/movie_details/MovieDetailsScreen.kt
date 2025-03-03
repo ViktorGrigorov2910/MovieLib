@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.skydoves.cloudy.Cloudy
 import com.skydoves.landscapist.glide.GlideImage
+import com.vgrigorov.movielib.Constants.Companion.BASE_POSTER_IMAGE_URL
 import com.vgrigorov.movielib.domain.models.Movie
 
 @Composable
@@ -160,7 +161,7 @@ fun MovieDetailsContent(
         ) {
             // Movie Poster (Circular)
             GlideImage(
-                imageModel = { movie.posterPath },
+                imageModel = { BASE_POSTER_IMAGE_URL + movie.posterPath },
                 loading = {
                     CircularProgressIndicator(
                         modifier = Modifier

@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.skydoves.landscapist.glide.GlideImage
+import com.vgrigorov.movielib.Constants.Companion.BASE_POSTER_IMAGE_URL
 import com.vgrigorov.movielib.domain.models.Movie
 
 @Composable
@@ -149,7 +150,7 @@ fun FavMovieRow(
                 ) {
                     // Movie Poster
                     GlideImage(
-                        imageModel = { movie.posterPath },
+                        imageModel = { BASE_POSTER_IMAGE_URL + movie.posterPath },
                         loading = {
                             CircularProgressIndicator(
                                 modifier = Modifier.size(64.dp),

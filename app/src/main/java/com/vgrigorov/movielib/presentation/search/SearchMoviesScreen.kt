@@ -51,6 +51,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.paging.LoadState
 import com.skydoves.landscapist.glide.GlideImage
+import com.vgrigorov.movielib.Constants.Companion.BASE_POSTER_IMAGE_URL
 import com.vgrigorov.movielib.domain.models.Movie
 import com.vgrigorov.movielib.presentation.Screen
 
@@ -178,7 +179,7 @@ fun SearchResultRow(
     ) {
         // Movie Poster
         GlideImage(
-            imageModel = { movie.posterPath },
+            imageModel = { BASE_POSTER_IMAGE_URL + movie.posterPath },
             loading = {
                 CircularProgressIndicator(
                     modifier = Modifier.size(64.dp),
