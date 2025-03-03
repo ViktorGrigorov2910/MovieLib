@@ -16,12 +16,30 @@ interface MoviesAPI {
         @Query("include_video") includeVideo: Boolean?= false,
     ): MoviesListResource
 
+    // Now Playing Movies
+    @GET("movie/now_playing")
+    suspend fun getNowPlayingMovies(
+        @Query("api_key") apiKey: String = Keys.API_KEY,
+        @Query("language") language: String = "en-US",
+        @Query("page") page: Int = 1
+    ): MoviesListResource
+
+    // Top Rated Movies
+    @GET("movie/top_rated")
+    suspend fun getTopRatedMovies(
+        @Query("api_key") apiKey: String = Keys.API_KEY,
+        @Query("language") language: String = "en-US",
+        @Query("page") page: Int = 1
+    ): MoviesListResource
+
+
     @GET("search/movie")
     suspend fun searchMovies(
         @Query("query") query: String,
         @Query("page") page: Int,
         @Query("api_key") apiKey: String = Keys.API_KEY
     ): MoviesListResource
+
 
 
 }

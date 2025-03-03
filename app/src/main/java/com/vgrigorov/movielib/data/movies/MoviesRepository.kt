@@ -10,15 +10,15 @@ class MoviesRepository @Inject constructor(
     private val moviesAPI: MoviesAPI
 ) : MoviesRepositoryContract {
 
-    override suspend fun getNowPlayingMovies(): List<MoviesList> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getNowPlayingMovies():MoviesList =
+        moviesAPI.getNowPlayingMovies().toDomain()
+
 
     override suspend fun getPopularMovies(): MoviesList =
         moviesAPI.getPopularMovies().toDomain()
 
 
-    override suspend fun getTopRatedMovies(): List<MoviesList> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getTopRatedMovies(): MoviesList =
+        moviesAPI.getTopRatedMovies().toDomain()
+
 }

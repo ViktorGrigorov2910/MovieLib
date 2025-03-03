@@ -47,6 +47,7 @@ fun HomeScreen(
     navController: NavController
 ) {
     val scrollState = rememberScrollState()
+    //TODO: It would be nicer to add paging to those 3
     val topRatedMovies by viewModel.topRatedMovies.collectAsState()
     val popularMovies by viewModel.popularMovies.collectAsState()
     val nowPlayingMovies by viewModel.nowPlayingMovies.collectAsState()
