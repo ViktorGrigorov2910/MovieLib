@@ -81,7 +81,7 @@ fun MovieDetailsScreen(
                             .background(Color.White),
                         contentAlignment = Alignment.Center
                     ) {
-                        CircularProgressIndicator()
+                        CircularProgressIndicator(color = Color.Black)
                     }
                 }
 
@@ -165,7 +165,7 @@ fun MovieDetailsContent(
                     CircularProgressIndicator(
                         modifier = Modifier
                             .size(86.dp),
-                        color = MaterialTheme.colorScheme.secondary,
+                        color = Color.Black,
                         trackColor = MaterialTheme.colorScheme.surfaceVariant,
                     )
                 },

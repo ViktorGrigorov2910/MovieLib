@@ -54,12 +54,15 @@ fun HomeScreen(
     when (uiState) {
         is UiState.Loading -> {
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator()
+                CircularProgressIndicator(color = Color.White)
             }
         }
+
         is UiState.Success -> {
             Column(
                 modifier = Modifier
@@ -73,9 +76,12 @@ fun HomeScreen(
                 MovieCategorySection("Now Playing", nowPlayingMovies, navController)
             }
         }
+
         is UiState.Error -> {
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -105,9 +111,9 @@ fun MovieCategorySection(
             items(movies) { movie ->
                 MovieComponent(movie,
                     onClick = {
-                    navController.currentBackStackEntry?.savedStateHandle?.set(MOVIE_KEY, movie)
-                    navController.navigate(Screen.MovieDetails.route)
-                })
+                        navController.currentBackStackEntry?.savedStateHandle?.set(MOVIE_KEY, movie)
+                        navController.navigate(Screen.MovieDetails.route)
+                    })
             }
         }
     }
@@ -133,7 +139,7 @@ fun MovieComponent(movie: Movie, onClick: () -> Unit) {
                     CircularProgressIndicator(
                         modifier = Modifier
                             .size(86.dp),
-                        color = MaterialTheme.colorScheme.secondary,
+                        color = Color.Black,
                         trackColor = MaterialTheme.colorScheme.surfaceVariant,
                     )
                 },

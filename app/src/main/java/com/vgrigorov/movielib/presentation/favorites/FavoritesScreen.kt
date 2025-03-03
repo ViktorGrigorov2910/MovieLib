@@ -1,6 +1,7 @@
 package com.vgrigorov.movielib.presentation.favorites
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,10 +12,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -54,6 +57,14 @@ fun FavoritesScreen(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        Icon(
+            imageVector = Icons.Default.FavoriteBorder,
+            contentDescription = "FavoriteBorder",
+            tint = Color.White,
+            modifier = Modifier.size(32.dp)
+        )
+
         // Hint Text
         Text(
             text = "Swipe left to remove a movie from favorites",
@@ -63,7 +74,9 @@ fun FavoritesScreen(
         )
 
         // List of Favorite Movies
-        LazyColumn {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(24.dp)
+        ) {
             items(favoriteMovies.size) { id ->
                 FavMovieRow(
                     movie = favoriteMovies[id],
@@ -73,8 +86,6 @@ fun FavoritesScreen(
         }
     }
 }
-
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -90,26 +101,30 @@ fun FavMovieRow(
                     onRemove() // Trigger removal on swipe from end to start
                     true
                 }
+
                 DismissValue.Default -> false
             }
         },
+        positionalThreshold = { totalDistance -> totalDistance * 0.5f } // slightly more than half way
     )
 
     SwipeToDismiss(
         state = swipeState,
         directions = setOf(DismissDirection.StartToEnd), // Only allow swipe from end to start
         background = {
-            //TODO: Fix UI issues
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(100.dp)
                     .clip(RoundedCornerShape(8.dp))
-                    .background(Color.Red)
-                    .padding(8.dp),
-                contentAlignment = Alignment.CenterEnd
+                    .background(Color.Red),
+                contentAlignment = Alignment.CenterStart
             ) {
+
                 Icon(
+                    modifier = Modifier
+                        .padding(start = 24.dp)
+                        .align(Alignment.CenterStart),
                     imageVector = Icons.Default.Delete,
                     contentDescription = "Delete",
                     tint = Color.White
@@ -120,8 +135,7 @@ fun FavMovieRow(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(100.dp)
-                    .padding(8.dp),
+                    .height(100.dp),
                 shape = RoundedCornerShape(8.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White)
@@ -129,6 +143,7 @@ fun FavMovieRow(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .wrapContentHeight()
                         .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -138,7 +153,7 @@ fun FavMovieRow(
                         loading = {
                             CircularProgressIndicator(
                                 modifier = Modifier.size(64.dp),
-                                color = MaterialTheme.colorScheme.secondary,
+                                color = Color.Black,
                                 trackColor = MaterialTheme.colorScheme.surfaceVariant,
                             )
                         },
