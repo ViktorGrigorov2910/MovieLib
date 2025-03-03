@@ -53,7 +53,6 @@ class HomeViewModel @Inject constructor(
                 }
             }
 
-            //TODO: Implement when getTopRatedMovies & getNowPlayingMovies api is ready
             when (val result = getTopRatedMoviesUseCase.execute(Unit)) {
                 is DataResult.Failure -> _uiState.value =
                     UiState.Error(result.error.message ?: "Unknown error")
@@ -72,7 +71,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 }
-
 
 sealed class UiState {
     object Loading : UiState()
