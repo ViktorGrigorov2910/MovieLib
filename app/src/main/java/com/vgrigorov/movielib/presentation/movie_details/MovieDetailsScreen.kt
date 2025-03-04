@@ -1,5 +1,7 @@
 package com.vgrigorov.movielib.presentation.movie_details
 
+import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -10,7 +12,18 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,7 +32,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -30,6 +51,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -39,6 +61,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.skydoves.cloudy.Cloudy
 import com.skydoves.landscapist.glide.GlideImage
 import com.vgrigorov.movielib.Constants.Companion.BASE_POSTER_IMAGE_URL
+import com.vgrigorov.movielib.R
 import com.vgrigorov.movielib.domain.models.Movie
 
 @Composable
@@ -89,8 +112,9 @@ fun MovieDetailsScreen(
                 is UiState.Success -> {
                     val successState = uiState as UiState.Success
                     MovieDetailsContent(
-                        isFavourite = successState.isMovieFavorite,
                         movie = successState.movie,
+                        thrailerUrl = successState.thrailerUrl,
+                        isFavourite = successState.isMovieFavorite,
                         onBackClicked = onBackClicked,
                         onSaveClicked = { viewModel.addMovieToFavourites(movie!!) } // we know for sure that there is a movie since we are in the Success State
                     )
@@ -133,12 +157,10 @@ fun MovieDetailsScreen(
 
 }
 
-
-//TODO: Might be good to add the movies' genres as ENUM and add them above the overview
-// Since it is ENUM we just do fori on the list and show them dynamically
 @Composable
 fun MovieDetailsContent(
     movie: Movie,
+    thrailerUrl: String,
     isFavourite: Boolean,
     onSaveClicked: (movie: Movie) -> Unit,
     onBackClicked: () -> Unit
@@ -207,6 +229,25 @@ fun MovieDetailsContent(
 
                 // Fancy Rating (Colored Circle with Rating)
                 AnimatedRatingCircle(rating = movie.rating ?: 3.0)
+
+                Button(
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Black // Change to any color
+                    ),
+                    onClick = {
+                        // Create an Intent to open the URL
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(thrailerUrl))
+                        context.startActivity(intent)
+
+                    }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.yt_icon), // Load vector drawable
+                        contentDescription = "YT Icon",
+                        modifier = Modifier.size(24.dp), // Adjust size
+                        tint = Color.White // Change color if needed
+                    )
+                }
+
             }
 
             // Movie Overview (Scrollable Text)

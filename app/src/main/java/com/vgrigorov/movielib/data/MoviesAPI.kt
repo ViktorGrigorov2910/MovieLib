@@ -2,8 +2,10 @@ package com.vgrigorov.movielib.data
 
 import com.vgrigorov.movielib.Keys
 import com.vgrigorov.movielib.data.resources.MoviesListResource
+import com.vgrigorov.movielib.data.resources.VideoListResource
 import com.vgrigorov.movielib.di.BASE_URL
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MoviesAPI {
@@ -39,6 +41,14 @@ interface MoviesAPI {
         @Query("page") page: Int,
         @Query("api_key") apiKey: String = Keys.API_KEY
     ): MoviesListResource
+
+    // Videos (Trailers) for a Specific Movie
+    @GET("movie/{movie_id}/videos")
+    suspend fun getMovieVideos(
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String= Keys.API_KEY,
+        @Query("language") language: String = "en-US"
+    ): VideoListResource
 
 
 

@@ -10,7 +10,7 @@ class MoviesRepository @Inject constructor(
     private val moviesAPI: MoviesAPI
 ) : MoviesRepositoryContract {
 
-    override suspend fun getNowPlayingMovies():MoviesList =
+    override suspend fun getNowPlayingMovies(): MoviesList =
         moviesAPI.getNowPlayingMovies().toDomain()
 
 
@@ -20,5 +20,11 @@ class MoviesRepository @Inject constructor(
 
     override suspend fun getTopRatedMovies(): MoviesList =
         moviesAPI.getTopRatedMovies().toDomain()
+
+    override suspend fun getMovieThrailer(movieId: Int): String =
+        moviesAPI.getMovieVideos(movieId).results.find { it.type == "Trailer" && it.site == "YouTube" }
+            .let { it ->
+                return@let "https://www.youtube.com/watch?v=${it?.key}"
+            }
 
 }

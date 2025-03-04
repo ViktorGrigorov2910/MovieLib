@@ -9,5 +9,6 @@ interface MoviesRepositoryContract {
     suspend fun getPopularMovies(): MoviesList
 
     suspend fun getTopRatedMovies(): MoviesList
+    suspend fun getMovieThrailer(movieId:Int): String
 
 }
