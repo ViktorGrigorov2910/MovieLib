@@ -63,6 +63,7 @@ import com.skydoves.landscapist.glide.GlideImage
 import com.vgrigorov.movielib.Constants.Companion.BASE_POSTER_IMAGE_URL
 import com.vgrigorov.movielib.R
 import com.vgrigorov.movielib.domain.models.Movie
+import com.vgrigorov.movielib.presentation.reusable_components.GlideImageFailedState
 
 @Composable
 fun MovieDetailsScreen(
@@ -322,43 +323,6 @@ fun ButtonRow(
 }
 
 
-@Composable
-fun GlideImageFailedState(
-    modifier: Modifier = Modifier,
-    size: Dp = 150.dp, // Default size
-    shape: Shape = CircleShape, // Default shape
-    iconSize: Dp = 48.dp, // Size of the fallback icon
-    backgroundColor: Color = Color.LightGray, // Background color for the fallback
-    iconTint: Color = Color.White, // Tint color for the fallback icon
-    textColor: Color = Color.White, // Text color for the fallback message
-    text: String = "Image not available" // Fallback message
-) {
-    Box(
-        modifier = modifier
-            .size(size)
-            .clip(shape)
-            .background(backgroundColor),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Icon(
-                imageVector = Icons.Default.Warning,
-                contentDescription = "Failed to load image",
-                tint = iconTint,
-                modifier = Modifier.size(iconSize)
-            )
-            Text(
-                text = text,
-                color = textColor,
-                fontSize = 12.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-        }
-    }
-}
 
 @Composable
 fun AnimatedRatingCircle(rating: Double) {

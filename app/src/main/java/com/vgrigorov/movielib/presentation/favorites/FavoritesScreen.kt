@@ -44,6 +44,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.skydoves.landscapist.glide.GlideImage
 import com.vgrigorov.movielib.Constants.Companion.BASE_POSTER_IMAGE_URL
 import com.vgrigorov.movielib.domain.models.Movie
+import com.vgrigorov.movielib.presentation.reusable_components.GlideImageFailedState
 
 @Composable
 fun FavoritesScreen(
@@ -159,20 +160,12 @@ fun FavMovieRow(
                             )
                         },
                         failure = {
-                            Box(
-                                modifier = Modifier
-                                    .size(64.dp)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .background(Color.LightGray),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Warning,
-                                    contentDescription = "Failed to load image",
-                                    tint = Color.White,
-                                    modifier = Modifier.size(32.dp)
-                                )
-                            }
+                            GlideImageFailedState(
+                                size = 86.dp,
+                                iconSize = 12.dp,
+                                shape = RoundedCornerShape(8.dp),
+                                text = "Failed to load image",
+                            )
                         },
                         modifier = Modifier
                             .size(64.dp)

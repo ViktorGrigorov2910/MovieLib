@@ -39,7 +39,7 @@ import com.vgrigorov.movielib.Constants.Companion.BASE_POSTER_IMAGE_URL
 import com.vgrigorov.movielib.domain.models.Movie
 import com.vgrigorov.movielib.presentation.Screen
 import com.vgrigorov.movielib.presentation.Screen.MovieDetails.MOVIE_KEY
-import com.vgrigorov.movielib.presentation.movie_details.GlideImageFailedState
+import com.vgrigorov.movielib.presentation.reusable_components.GlideImageFailedState
 
 @Composable
 fun HomeScreen(

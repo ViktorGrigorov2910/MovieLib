@@ -54,6 +54,7 @@ import com.skydoves.landscapist.glide.GlideImage
 import com.vgrigorov.movielib.Constants.Companion.BASE_POSTER_IMAGE_URL
 import com.vgrigorov.movielib.domain.models.Movie
 import com.vgrigorov.movielib.presentation.Screen
+import com.vgrigorov.movielib.presentation.reusable_components.GlideImageFailedState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -179,7 +180,7 @@ fun SearchResultRow(
     ) {
         // Movie Poster
         GlideImage(
-            imageModel = { BASE_POSTER_IMAGE_URL + movie.posterPath },
+            imageModel = {   movie.posterPath },
             loading = {
                 CircularProgressIndicator(
                     modifier = Modifier.size(64.dp),
@@ -188,20 +189,12 @@ fun SearchResultRow(
                 )
             },
             failure = {
-                Box(
-                    modifier = Modifier
-                        .size(64.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(Color.LightGray),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Warning,
-                        contentDescription = "Failed to load image",
-                        tint = Color.White,
-                        modifier = Modifier.size(32.dp)
-                    )
-                }
+                GlideImageFailedState(
+                    size = 64.dp,
+                    iconSize = 12.dp,
+                    shape = RoundedCornerShape(8.dp),
+                    text = "Failed to load image",
+                )
             },
             modifier = Modifier
                 .size(64.dp)
