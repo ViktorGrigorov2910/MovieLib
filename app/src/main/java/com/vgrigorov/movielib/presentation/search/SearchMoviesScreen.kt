@@ -20,7 +20,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -180,7 +179,7 @@ fun SearchResultRow(
     ) {
         // Movie Poster
         GlideImage(
-            imageModel = {   movie.posterPath },
+            imageModel = { BASE_POSTER_IMAGE_URL + movie.posterPath },
             loading = {
                 CircularProgressIndicator(
                     modifier = Modifier.size(64.dp),

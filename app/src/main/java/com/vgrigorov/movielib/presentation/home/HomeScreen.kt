@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -34,6 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.skydoves.landscapist.glide.GlideImage
 import com.vgrigorov.movielib.Constants.Companion.BASE_POSTER_IMAGE_URL
 import com.vgrigorov.movielib.domain.models.Movie
@@ -47,10 +49,9 @@ fun HomeScreen(
     navController: NavController
 ) {
     val scrollState = rememberScrollState()
-    //TODO: It would be nicer to add paging to those 3
-    val topRatedMovies by viewModel.topRatedMovies.collectAsState()
-    val popularMovies by viewModel.popularMovies.collectAsState()
-    val nowPlayingMovies by viewModel.nowPlayingMovies.collectAsState()
+    val topRatedMovies = viewModel.topRatedMovies.value.collectAsLazyPagingItems()
+    val popularMovies = viewModel.popularMovies.value.collectAsLazyPagingItems()
+    val nowPlayingMovies = viewModel.nowPlayingMovies.value.collectAsLazyPagingItems()
     val uiState by viewModel.uiState.collectAsState()
 
     when (uiState) {
@@ -73,9 +74,9 @@ fun HomeScreen(
                     .background(Color.Black),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                MovieCategorySection("Top Rated", topRatedMovies, navController)
-                MovieCategorySection("Popular", popularMovies, navController)
                 MovieCategorySection("Now Playing", nowPlayingMovies, navController)
+                MovieCategorySection("Top Rated", topRatedMovies, navController)
+                MovieCategorySection("Most Popular", popularMovies, navController)
             }
         }
 
@@ -98,7 +99,7 @@ fun HomeScreen(
 @Composable
 fun MovieCategorySection(
     title: String,
-    movies: List<Movie>,
+    movies: LazyPagingItems<Movie>,
     navController: NavController
 ) {
     Column(modifier = Modifier.padding(vertical = 16.dp)) {
@@ -110,12 +111,32 @@ fun MovieCategorySection(
             modifier = Modifier.padding(bottom = 8.dp)
         )
         LazyRow {
-            items(movies) { movie ->
-                MovieComponent(movie,
-                    onClick = {
-                        navController.currentBackStackEntry?.savedStateHandle?.set(MOVIE_KEY, movie)
-                        navController.navigate(Screen.MovieDetails.route)
-                    })
+            items(movies.itemCount) { index ->
+                val movie = movies[index]
+                if (movie != null) {
+                    MovieComponent(movie,
+                        onClick = {
+                            navController.currentBackStackEntry?.savedStateHandle?.set(
+                                MOVIE_KEY,
+                                movie
+                            )
+                            navController.navigate(Screen.MovieDetails.route)
+                        })
+                }
+            }
+
+            // Show loading indicator when loading more items
+            if (movies.loadState.append is LoadState.Loading) {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(color = Color.White)
+                    }
+                }
             }
         }
     }

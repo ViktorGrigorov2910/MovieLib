@@ -1,14 +1,16 @@
 package com.vgrigorov.movielib.data.movies
 
-import com.vgrigorov.movielib.domain.models.MoviesList
+import androidx.paging.PagingData
+import com.vgrigorov.movielib.domain.models.Movie
+import kotlinx.coroutines.flow.Flow
 
 interface MoviesRepositoryContract {
 
-    suspend fun getNowPlayingMovies(): MoviesList
+    suspend fun getNowPlayingMovies(): Flow<PagingData<Movie>>
 
-    suspend fun getPopularMovies(): MoviesList
+    suspend fun getPopularMovies(): Flow<PagingData<Movie>>
 
-    suspend fun getTopRatedMovies(): MoviesList
-    suspend fun getMovieThrailer(movieId:Int): String
+    suspend fun getTopRatedMovies(): Flow<PagingData<Movie>>
+    suspend fun getMovieThrailer(movieId: Int): String
 
 }
