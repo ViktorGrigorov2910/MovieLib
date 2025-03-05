@@ -13,13 +13,12 @@ MovieLib is a modern Android app built with **Jetpack Compose** that allows user
 - **Hilt**: Dependency injection for better code organization.
 - **Paging 3**: Efficiently load and display paginated data.
 - **Glide**: Image loading library for Compose.
-- **YouTube Player**: For playing movie trailers.
 
 ## 🎯 Key Features
 
 - **Discover Movies**: Browse top-rated, popular, and now-playing movies.
 - **Search**: Find movies by title or keywords.
-- **Movie Details**: View detailed information about a movie, including trailers.
+- **Movie Details**: View detailed information about a movie, with navigation to YT to watch the trailer.
 - **Favorites**: Save movies to watch later.
 - **Swipe-to-Delete**: Easily remove movies from favorites.
 
@@ -30,7 +29,10 @@ MovieLib uses **The Movie Database (TMDb) API** to fetch movie data.\
 
 ## 📸 Screenshots
 
----
+| Home Screen | Movie Details | Search Movies | Favurites |
+| --- | --- | --- | --- |
+| ![Screenshot 1](home_screen.jpg) | ![Screenshot 2](details_screen.jpg) | ![Screenshot 3](search_results.jpg) | ![Screenshot 5](fav_screen.jpg) | 
+
 
 ###
 
