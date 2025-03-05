@@ -26,9 +26,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,6 +38,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.skydoves.landscapist.glide.GlideImage
 import com.vgrigorov.movielib.Constants.Companion.BASE_POSTER_IMAGE_URL
+import com.vgrigorov.movielib.R
 import com.vgrigorov.movielib.domain.models.Movie
 import com.vgrigorov.movielib.presentation.Screen
 import com.vgrigorov.movielib.presentation.Screen.MovieDetails.MOVIE_KEY
@@ -74,9 +75,21 @@ fun HomeScreen(
                     .background(Color.Black),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                MovieCategorySection("Now Playing", nowPlayingMovies, navController)
-                MovieCategorySection("Top Rated", topRatedMovies, navController)
-                MovieCategorySection("Most Popular", popularMovies, navController)
+                MovieCategorySection(
+                    stringResource(id = R.string.now_playing_header_txt),
+                    nowPlayingMovies,
+                    navController
+                )
+                MovieCategorySection(
+                    stringResource(id = R.string.top_rated_header_txt),
+                    topRatedMovies,
+                    navController
+                )
+                MovieCategorySection(
+                    stringResource(id = R.string.most_popular_header_txt),
+                    popularMovies,
+                    navController
+                )
             }
         }
 
@@ -170,7 +183,6 @@ fun MovieComponent(movie: Movie, onClick: () -> Unit) {
                     GlideImageFailedState(
                         size = 200.dp,
                         shape = RoundedCornerShape(8.dp),
-                        text = "Failed to load image",
                     )
                 },
                 modifier = Modifier
@@ -192,11 +204,4 @@ fun MovieComponent(movie: Movie, onClick: () -> Unit) {
             )
         }
     }
-}
-
-
-@Composable
-@Preview
-fun HomeScreenPreview() {
-    Text(text = "Home Screen - Movie Categories will be here")
 }

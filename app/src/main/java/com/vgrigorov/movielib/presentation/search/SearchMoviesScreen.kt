@@ -41,6 +41,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.font.FontWeight
@@ -51,6 +52,7 @@ import androidx.navigation.NavController
 import androidx.paging.LoadState
 import com.skydoves.landscapist.glide.GlideImage
 import com.vgrigorov.movielib.Constants.Companion.BASE_POSTER_IMAGE_URL
+import com.vgrigorov.movielib.R
 import com.vgrigorov.movielib.domain.models.Movie
 import com.vgrigorov.movielib.presentation.Screen
 import com.vgrigorov.movielib.presentation.reusable_components.GlideImageFailedState
@@ -92,7 +94,12 @@ fun SearchScreen(
                         Toast.makeText(context, "Please enter text", Toast.LENGTH_LONG).show()
                     }
                 },
-                placeholder = { Text("Search movies...", color = Color.Gray) },
+                placeholder = {
+                    Text(
+                        stringResource(id = R.string.search_placeholder_msg),
+                        color = Color.Gray
+                    )
+                },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Search,
@@ -192,7 +199,6 @@ fun SearchResultRow(
                     size = 64.dp,
                     iconSize = 12.dp,
                     shape = RoundedCornerShape(8.dp),
-                    text = "Failed to load image",
                 )
             },
             modifier = Modifier
@@ -216,8 +222,6 @@ fun SearchResultRow(
 
 @Composable
 fun SearchEmptyState() {
-    val message = "Nothing to show here..."
-
 
     Column(
         modifier = Modifier
@@ -235,7 +239,7 @@ fun SearchEmptyState() {
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = message,
+            text = stringResource(id = R.string.search_empty_state_msg),
             color = Color.White,
             fontSize = 18.sp,
             fontWeight = FontWeight.Medium

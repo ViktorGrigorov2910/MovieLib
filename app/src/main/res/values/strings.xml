@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">MovieLib</string>
+    <string name="error_loading_image_msg">Failed to load image</string>
+    <string name="error_btn_txt">Return to Home</string>
+
+    <string name="now_playing_header_txt">Now Playing</string>
+    <string name="top_rated_header_txt">Top Rated</string>
+    <string name="most_popular_header_txt">Most Popular</string>
+
+    <string name="fav_screen_hint_msg">Swipe left to remove a movie from favorites</string>
+
+    <string name="search_placeholder_msg">Search movies…</string>
+    <string name="search_empty_state_msg">Nothing to show here…</string>
+
 </resources>

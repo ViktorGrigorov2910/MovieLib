@@ -16,10 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.vgrigorov.movielib.R
 
 @Composable
 fun GlideImageFailedState(
@@ -30,7 +32,7 @@ fun GlideImageFailedState(
     backgroundColor: Color = Color.LightGray, // Background color for the fallback
     iconTint: Color = Color.White, // Tint color for the fallback icon
     textColor: Color = Color.White, // Text color for the fallback message
-    text: String = "Image not available" // Fallback message
+    text: String = stringResource(id = R.string.error_loading_image_msg) // Fallback message
 ) {
     Box(
         modifier = modifier

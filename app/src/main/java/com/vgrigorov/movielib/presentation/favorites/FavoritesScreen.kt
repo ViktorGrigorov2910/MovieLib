@@ -18,7 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -37,12 +36,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.skydoves.landscapist.glide.GlideImage
 import com.vgrigorov.movielib.Constants.Companion.BASE_POSTER_IMAGE_URL
+import com.vgrigorov.movielib.R
 import com.vgrigorov.movielib.domain.models.Movie
 import com.vgrigorov.movielib.presentation.reusable_components.GlideImageFailedState
 
@@ -69,7 +70,7 @@ fun FavoritesScreen(
 
         // Hint Text
         Text(
-            text = "Swipe left to remove a movie from favorites",
+            text = stringResource(id = R.string.fav_screen_hint_msg),
             color = Color.White,
             fontSize = 14.sp,
             modifier = Modifier.padding(bottom = 16.dp)
@@ -164,7 +165,6 @@ fun FavMovieRow(
                                 size = 86.dp,
                                 iconSize = 12.dp,
                                 shape = RoundedCornerShape(8.dp),
-                                text = "Failed to load image",
                             )
                         },
                         modifier = Modifier
